@@ -1,11 +1,12 @@
 from game_logic import make_image_dict
 import pygame
 
+pygame.font.init()
 
 # frames per second
 FPS = 60
-
-FONT_LOCATION = "/Users/Adam/Desktop/coding/pfe/tanks/tanks/dogica.ttf"
+FONT_LOCATION = "/Users/Adam/Desktop/coding/games/tanks/assets/fonts/dogica.ttf"
+MAIN_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/dogica.ttf", 36)
 CLOCK = pygame.time.Clock()
 START_TIME = pygame.time.get_ticks()
 SCREEN_WIDTH=800
