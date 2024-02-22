@@ -11,7 +11,9 @@ MAIN_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/font
 CLOCK = pygame.time.Clock()
 START_TIME = pygame.time.get_ticks()
 SCREEN_WIDTH=800
+CENTRE_X = SCREEN_WIDTH/2
 SCREEN_HEIGHT=600
+CENTRE_Y = SCREEN_HEIGHT/2
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 # image dictionarie

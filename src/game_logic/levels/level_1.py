@@ -1,24 +1,22 @@
 import pygame
-from game_logic import constants,event_handler,blit_text
+from game_logic import constants,event_handler,blit_text,level_countdowns
 
 def level_one(game_running):
     # game loop
     paused=False
     while game_running:
         current_time = pygame.time.get_ticks()
-        elapsed_time = current_time - constants.START_TIME
+        elapsed_time = (current_time - constants.START_TIME) /1000
 
         constants.SCREEN.blit(constants.TERRAIN_IMAGES["mud"], (0, 0))
 
         game_running,paused = event_handler.event_handler_level_one(game_running,paused)
 
-        if paused:
-            blit_text.display_text(constants.SCREEN,"PAUSED",constants.MAIN_FONT,constants.SCREEN_WIDTH/2,constants.SCREEN_HEIGHT/2,(255,0,0))
+        if not paused:
+            level_countdowns.level_one_countdown(elapsed_time)
+
         else:
-            blit_text.display_text(constants.SCREEN,"level 1",constants.MAIN_FONT,constants.SCREEN_WIDTH/2,constants.SCREEN_HEIGHT/2,(255,0,0))
-
-
-
+            blit_text.display_text(constants.SCREEN,"PAUSED",constants.MAIN_FONT,constants.CENTRE_X,constants.CENTRE_Y,(255,0,0))
 
         pygame.display.update() 
         constants.CLOCK.tick(constants.FPS)
