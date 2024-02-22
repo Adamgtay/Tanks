@@ -11,6 +11,4 @@ game_running = True
 
 startup_screen.startup_screen(game_running)
 
-# Quit Pygame
-pygame.quit()
-sys.exit()
+
