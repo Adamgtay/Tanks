@@ -14,13 +14,16 @@ def event_handler_startup(game_running):
     return game_running
 
 
-def event_handler_level_one(game_running):
+def event_handler_level_one(game_running,paused):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_running = False
             # Quit Pygame
             pygame.quit()
             sys.exit()
-    return game_running
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                paused = not paused     
+    return game_running,paused
 
   
