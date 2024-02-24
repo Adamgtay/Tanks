@@ -1,5 +1,7 @@
 import pygame
-from game_logic import constants,event_handler,blit_text,level_countdowns
+from game_logic import constants,event_handler,blit_text,level_countdowns,display_ascii
+from game_logic.levels import level_one_ascii_units
+
 
 def level_one(game_running):
     # game loop
@@ -13,6 +15,7 @@ def level_one(game_running):
         game_running,paused = event_handler.event_handler_level_one(game_running,paused)
 
         if not paused:
+            display_ascii.display_unit(level_one_ascii_units.player_tank["straight"])
             level_countdowns.level_one_countdown(elapsed_time)
 
         else:

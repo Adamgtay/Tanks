@@ -7,7 +7,8 @@ pygame.font.init()
 FPS = 60
 FONT_LOCATION = "/Users/Adam/Desktop/coding/games/tanks/assets/fonts/dogica.ttf"
 MAIN_MUSIC_LOCATION = "/Users/Adam/Desktop/coding/games/Tanks/assets/sound/main-theme.wav"
-MAIN_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/dogica.ttf", 36)
+MAIN_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 36)
+FONT_SIZE = 36
 CLOCK = pygame.time.Clock()
 START_TIME = pygame.time.get_ticks()
 SCREEN_WIDTH=800
