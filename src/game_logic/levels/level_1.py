@@ -11,6 +11,7 @@ def level_one(game_running):
     player_y = constants.CENTRE_Y+150
     player_alive = True
     player_win = False
+    countdown_finished = False
     # Define movement flags
     move_up = False
     move_down = False
@@ -28,9 +29,11 @@ def level_one(game_running):
         if not paused:
             if player_win:
                 blit_text.display_text(constants.SCREEN,"YOU WIN",constants.CAPTION_FONT,constants.CENTRE_X,constants.CENTRE_Y,(255,0,0))
-            elif player_alive:
+            elif player_alive and not countdown_finished:
+                countdown_finished = level_countdowns.level_one_countdown(elapsed_time)
+            elif player_alive and countdown_finished:
                 player_height,player_width = display_ascii.display_unit(level_one_ascii_units.player_tank["straight"],(0,200,255),player_x,player_y)
-                level_countdowns.level_one_countdown(elapsed_time)
+                
         elif paused:
             blit_text.display_text(constants.SCREEN,"PAUSED",constants.MAIN_FONT,constants.CENTRE_X,constants.CENTRE_Y,(255,0,0))
 
