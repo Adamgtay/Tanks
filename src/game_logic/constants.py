@@ -7,7 +7,9 @@ pygame.font.init()
 FPS = 60
 FONT_LOCATION = "/Users/Adam/Desktop/coding/games/tanks/assets/fonts/dogica.ttf"
 MAIN_MUSIC_LOCATION = "/Users/Adam/Desktop/coding/games/Tanks/assets/sound/main-theme.wav"
-MAIN_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 36)
+MAIN_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 12)
+CAPTION_FONT = pygame.font.Font("/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 24)
+
 FONT_SIZE = 36
 CLOCK = pygame.time.Clock()
 START_TIME = pygame.time.get_ticks()
@@ -16,6 +18,7 @@ CENTRE_X = SCREEN_WIDTH/2
 SCREEN_HEIGHT=600
 CENTRE_Y = SCREEN_HEIGHT/2
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+PLAYER_ACCELERATION=6
 
 # image dictionarie
 TANK_IMAGES = make_image_dict.load_images_from_directory("/Users/Adam/Desktop/coding/games/tanks/assets/images/units/level_one")
