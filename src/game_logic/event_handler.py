@@ -15,14 +15,14 @@ def event_handler_startup(game_running):
     return game_running
 
 
-def event_handler_level_one(game_running,paused,move_up,move_down,move_left,move_right):
+
+def event_handler_level_one(move_up,move_down,move_left,move_right,paused,player_missiles,player_missile_x_positions,player_missile_y_positions,player_x,player_y):
     # player height and width not correct
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            game_running = False
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 paused = not paused
             elif event.key == pygame.K_UP:
@@ -33,6 +33,10 @@ def event_handler_level_one(game_running,paused,move_up,move_down,move_left,move
                 move_right = True
             elif event.key == pygame.K_LEFT:
                 move_left = True
+            elif event.key == pygame.K_SPACE:
+                player_missiles +=1
+                player_missile_x_positions.append(player_x + (constants.PLAYER_WIDTH/2))
+                player_missile_y_positions.append(player_y)    
             
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
@@ -45,26 +49,38 @@ def event_handler_level_one(game_running,paused,move_up,move_down,move_left,move
                 move_left = False
     
 
-    return game_running,paused,move_up,move_down,move_left,move_right
+    return move_up,move_down,move_left,move_right,paused,player_missiles,player_missile_x_positions,player_missile_y_positions
 
-def player_movement(player_x,player_y,move_up,move_down,move_left,move_right,player_height,player_width,screen_height,screen_width):
+def player_movement(player_speed,player_x,player_y,move_up,move_down,move_left,move_right,player_height,player_width,screen_height,screen_width,screen_x_min,screen_y_min):
     # Update tank's position continuously based on movement flags
     if move_up:
-        player_y -= constants.PLAYER_ACCELERATION
-        if player_y <= 0:
-            player_y=0
+        player_y -= player_speed
+        if player_y <= screen_y_min:
+            player_y=screen_y_min
     if move_down:
-        player_y += constants.PLAYER_ACCELERATION
+        player_y += player_speed
         if player_y + player_height  >= screen_height:
             player_y=screen_height - player_height
     if move_right:
-        player_x += constants.PLAYER_ACCELERATION
+        player_x += player_speed
         if player_x +player_width >= screen_width:
             player_x = screen_width - player_width
     if move_left:
-        player_x -= constants.PLAYER_ACCELERATION
-        if player_x <= 0:
-            player_x=0
+        player_x -= player_speed
+        if player_x <= screen_x_min:
+            player_x=screen_x_min
 
     return player_x,player_y                
 
+def player_missile_update(player_missiles,player_missile_x_positions,player_missile_y_positions):
+    if player_missiles > 0:
+        for i in range(player_missiles):
+            display_ascii.display_unit(level_one_ascii_units.player_missile["missile"],constants.PLAYER_TANK_COLOUR,player_missile_x_positions[i],player_missile_y_positions[i],constants.CHAR_SPACING_X,constants.CHAR_SPACING_Y)
+            player_missile_y_positions[i] -= constants.MISSILE_ACCELERATION
+            if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN:
+                player_missiles -=1
+                del player_missile_y_positions[i]
+                del player_missile_x_positions[i]
+                break
+
+    return player_missiles,player_missile_x_positions,player_missile_y_positions        
