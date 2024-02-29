@@ -19,10 +19,21 @@ enemy_tank = {
                  "    ║    "]
 }
 
-player_missile ={
+player_missile = {
     "missile": ["⏏",
                 "┇",
                 "⌆"]
+}
+
+missile_explode = {
+    "1": ["[8 *",
+          "[8 *",
+          "[8 *",
+          "[8 *",
+          "[8 *",
+          "[8 *",
+          "[8 *",]
+
 }
 
 terrain = {
