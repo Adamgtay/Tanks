@@ -75,19 +75,35 @@ def player_movement(player_speed, player_x, player_y, move_up, move_down, move_l
     return player_x, player_y
 
 
-def player_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions):
+def player_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions, explosion_anim_list, missile_explode_anim, explosion_frame_tracker):
     if player_missiles > 0:
         for i in range(player_missiles):
             display_ascii.display_unit(level_one_ascii_units.player_missile["missile"], constants.PLAYER_TANK_COLOUR,
                                        player_missile_x_positions[i], player_missile_y_positions[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
             player_missile_y_positions[i] -= constants.MISSILE_ACCELERATION
-            if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN:
+            if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN + 150:
                 player_missiles -= 1
-                explosion_x.append(player_missile_x_positions[i])
-                explosion_y.append(player_missile_y_positions[i])
+                explosion_x.append(
+                    player_missile_x_positions[i] - (constants.EXPLOSION_WIDTH/2))
+                explosion_y.append(
+                    player_missile_y_positions[i] - (constants.EXPLOSION_HEIGHT/2))
                 number_of_explosions += 1
+                explosion_anim_list.append(missile_explode_anim)
+                explosion_frame_tracker.append(0)
                 del player_missile_y_positions[i]
                 del player_missile_x_positions[i]
                 break
 
-    return player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions
+    return player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions, explosion_anim_list, explosion_frame_tracker
+
+
+def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y):
+    if number_of_explosions > 0:
+        for i in range(number_of_explosions):
+            if explosion_frame_tracker[i] < len(level_one_ascii_units.missile_explode_anim):
+
+                display_ascii.display_unit(
+                    level_one_ascii_units.missile_explode_anim[explosion_frame_tracker[i]], constants.ENEMY_TANK_COLOUR, explosion_x[i], explosion_y[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+
+                explosion_frame_tracker[i] += 1
+    return explosion_frame_tracker

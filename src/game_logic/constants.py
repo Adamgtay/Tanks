@@ -1,4 +1,5 @@
-from game_logic import make_image_dict
+from game_logic import display_ascii
+from game_logic.levels import level_one_ascii_units
 import pygame
 
 pygame.font.init()
@@ -27,24 +28,30 @@ CENTRE_Y = SCREEN_HEIGHT/2
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 SCREEN_BKGND = (0, 0, 0)
 
+# ascii
+CHAR_SPACING_X = -1
+CHAR_SPACING_Y = 4
+
 # PLAYER CONSTANTS
 PLAYER_ACCELERATION = 6
 MISSILE_ACCELERATION = 20
-PLAYER_WIDTH = 66
-PLAYER_HEIGHT = 126
+MISSILE_HEIGHT, MISSILE_WIDTH = display_ascii.measure_unit_size(
+    level_one_ascii_units.player_missile["missile"], CHAR_SPACING_X, CHAR_SPACING_Y)
+PLAYER_HEIGHT, PLAYER_WIDTH = display_ascii.measure_unit_size(
+    level_one_ascii_units.player_tank["straight"], CHAR_SPACING_X, CHAR_SPACING_Y)
 PLAYER_TANK_COLOUR = (0, 200, 255)
 
 # enemy constants
 ENEMY_TANK_COLOUR = (200, 0, 0)
 ENEMY_ACCELERATION = 4
-ENEMY_WIDTH = 66
-ENEMY_HEIGHT = 126
+ENEMY_HEIGHT, ENEMY_WIDTH = display_ascii.measure_unit_size(
+    level_one_ascii_units.enemy_tank["straight"], CHAR_SPACING_X, CHAR_SPACING_Y)
 ENEMY_X_SPACING = 100
 
+# explosions
+EXPLOSION_HEIGHT, EXPLOSION_WIDTH = display_ascii.measure_unit_size(
+    level_one_ascii_units.missile_explode["1"], CHAR_SPACING_X, CHAR_SPACING_Y)
 
-# ascii
-CHAR_SPACING_X = -1
-CHAR_SPACING_Y = 4
 
 # image dictionarie
 # TANK_IMAGES = make_image_dict.load_images_from_directory("/Users/Adam/Desktop/coding/games/tanks/assets/images/units/level_one")

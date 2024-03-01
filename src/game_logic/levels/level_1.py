@@ -12,12 +12,15 @@ def level_one(game_running):
     player_win = False
     # missiles
     player_missiles = 0
+    missile_supply = 50
     player_missile_x_positions = []
     player_missile_y_positions = []
+    # explosions
     explosion_x = []
     explosion_y = []
     number_of_explosions = 0
-
+    explosion_anim_list = []
+    explosion_frame_tracker = []
     # enemy data
     enemy_tank_x_positions = []
     enemy_tank_y_positions = []
@@ -26,8 +29,10 @@ def level_one(game_running):
     enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.make_enemies(
         number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION, constants.ENEMY_X_SPACING, 0)
 
-    # Define movement flags
+    # movement flags
     move_up, move_down, move_left, move_right = False, False, False, False
+
+    j = 0
 
     while game_running:
         current_time = pygame.time.get_ticks()
@@ -51,19 +56,18 @@ def level_one(game_running):
                                                                    constants.PLAYER_HEIGHT, constants.PLAYER_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_WIDTH, constants.SCREEN_X_MIN, constants.SCREEN_Y_MIN)
 
                 # update player missile positions
-                player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions = event_handler.player_missile_update(
-                    player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions)
+                player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions, explosion_anim_list, explosion_frame_tracker = event_handler.player_missile_update(
+                    player_missiles, player_missile_x_positions, player_missile_y_positions, explosion_x, explosion_y, number_of_explosions,  explosion_anim_list, level_one_ascii_units.missile_explode_anim, explosion_frame_tracker)
 
                 # explosions
-                if number_of_explosions > 0:
-                    for i in range(number_of_explosions):
-                        display_ascii.display_encoded(
-                            level_one_ascii_units.missile_explode["1"], constants.ENEMY_TANK_COLOUR, explosion_x[i], explosion_y[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+                explosion_frame_tracker = event_handler.manage_explosions(
+                    number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y)
 
                 # update enemy tank positions
                 enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, number_of_enemy_tanks = make_enemies.update_enemy_tank_positions(
                     number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions)
 
+                # blit player position
                 display_ascii.display_unit(
                     level_one_ascii_units.player_tank["straight"], constants.PLAYER_TANK_COLOUR, player_x, player_y, constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
                 # display_ascii.display_terrain(level_one_ascii_units.terrain["mud"],(200,0,0),0,0,-1,-1 )

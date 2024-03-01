@@ -2,6 +2,29 @@ import pygame
 from game_logic import blit_text, constants
 
 
+def measure_unit_size(unit, char_spacing_x, char_spacing_y):
+    unit_height = 0
+    unit_width = 0
+    max_char_width = 0  # Variable to store the width of the widest character
+    # char_count =0
+
+    # Find the width of the widest character
+    for line in unit:
+        for char in line:
+            char_width, _ = constants.MAIN_FONT.size(char)
+            if char_width > max_char_width:
+                max_char_width = char_width
+
+    # total dimensions of unit with even spacing
+    for line in unit:
+        unit_width = 0
+        for char in line:
+            unit_width += max_char_width + char_spacing_x
+        unit_height += constants.MAIN_FONT.get_height() + char_spacing_y
+
+    return unit_height, unit_width  # Return the unit dimensions
+
+
 def display_unit(unit, colour, x, y, char_spacing_x, char_spacing_y):
     start_y = y
     unit_height = 0
