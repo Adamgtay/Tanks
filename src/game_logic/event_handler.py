@@ -75,11 +75,11 @@ def player_movement(player_speed, player_x, player_y, move_up, move_down, move_l
     return player_x, player_y
 
 
-def player_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions):
+def player_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions, screen):
     if player_missiles > 0:
         for i in range(player_missiles):
-            display_ascii.display_unit(level_one_ascii_units.player_missile["missile"], constants.PLAYER_TANK_COLOUR,
-                                       player_missile_x_positions[i], player_missile_y_positions[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+            screen.blit(constants.MISSILE_IMAGES["player_missile"], (
+                player_missile_x_positions[i], player_missile_y_positions[i]))
             player_missile_y_positions[i] -= constants.MISSILE_ACCELERATION
             if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN:
                 player_missiles -= 1
@@ -105,7 +105,7 @@ def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x
 
 
 def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y):
-    if player_missiles > 0:
+    if player_missiles > 0 and number_of_enemy_tanks > 0:
         for i in range(player_missiles):
             for j in range(number_of_enemy_tanks):
                 if collisions.isCollision(enemy_tank_x_positions[j], enemy_tank_y_positions[j], player_missile_x_positions[i], player_missile_y_positions[i], 37):

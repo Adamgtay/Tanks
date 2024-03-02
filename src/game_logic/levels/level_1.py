@@ -62,7 +62,7 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
 
                 # update player missile positions
                 player_missiles, player_missile_x_positions, player_missile_y_positions = event_handler.player_missile_update(
-                    player_missiles, player_missile_x_positions, player_missile_y_positions)
+                    player_missiles, player_missile_x_positions, player_missile_y_positions, constants.SCREEN)
 
                 # explosions
                 explosion_frame_tracker = event_handler.manage_explosions(
