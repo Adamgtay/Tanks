@@ -3,7 +3,7 @@ from game_logic import constants, event_handler, blit_text, level_countdowns, di
 from game_logic.levels import level_one_ascii_units
 
 
-def level_one(game_running):
+def level_one(game_running, player_missile_supply, number_of_enemies):
     # game loop
     paused = False
     # player data
@@ -14,7 +14,7 @@ def level_one(game_running):
     player_score = 0
     # missiles
     player_missiles = 0
-    missile_supply = 50
+    missile_supply = player_missile_supply
     player_missile_x_positions = []
     player_missile_y_positions = []
     # explosions
@@ -28,14 +28,12 @@ def level_one(game_running):
     enemy_tank_x_positions = []
     enemy_tank_y_positions = []
     enemy_tank_accelerations = []
-    number_of_enemy_tanks = 5
+    number_of_enemy_tanks = number_of_enemies
     enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.make_enemies(
         number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION, constants.ENEMY_X_SPACING, 0)
 
     # movement flags
     move_up, move_down, move_left, move_right = False, False, False, False
-
-    j = 0
 
     while game_running:
         current_time = pygame.time.get_ticks()
