@@ -119,6 +119,6 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
                     del enemy_tank_y_positions[j]
                     del player_missile_x_positions[i]
                     del player_missile_y_positions[i]
-                    player_missiles -= 1
+                    player_missiles -= 1  # something wrong with this logic
                     break
     return number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y
