@@ -105,6 +105,9 @@ def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x
 
 
 def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y):
+    missiles_to_remove = []
+    tanks_to_remove = []
+
     if player_missiles > 0:
         for i in range(player_missiles):
             for j in range(number_of_enemy_tanks):
@@ -114,11 +117,17 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
                     explosion_frame_tracker.append(0)
                     explosion_x.append(enemy_tank_x_positions[j])
                     explosion_y.append(enemy_tank_y_positions[j])
-                    number_of_enemy_tanks -= 1
-                    del enemy_tank_x_positions[j]
-                    del enemy_tank_y_positions[j]
-                    del player_missile_x_positions[i]
-                    del player_missile_y_positions[i]
-                    player_missiles -= 1
+                    missiles_to_remove.append(i)
+                    tanks_to_remove.append(j)
                     break
-    return number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y
+
+    # Remove collided missiles and enemy tanks
+    for i in reversed(missiles_to_remove):
+        del player_missile_x_positions[i]
+        del player_missile_y_positions[i]
+
+    for j in reversed(tanks_to_remove):
+        del enemy_tank_x_positions[j]
+        del enemy_tank_y_positions[j]
+
+    return number_of_enemy_tanks - len(tanks_to_remove), enemy_tank_x_positions, enemy_tank_y_positions, player_missiles - len(missiles_to_remove), player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y
