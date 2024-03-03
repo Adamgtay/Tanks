@@ -18,6 +18,16 @@ CAPTION_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 24)
 PAUSED_TEXT_COLOUR = (255, 0, 0)
 
+# text elements
+PLAYER_SCORE = "Score"
+SCORE_X, SCORE_Y = 100, 700
+SCORE_COLOUR = (255, 0, 0)
+TIME_COUNT = "Time left"
+TIME_X, TIME_Y = 200, 700
+TIME_COLOUR = (255, 0, 0)
+MISSILE_SUPPLY = "Missiles"
+MISSILE_TEXT_X, MISSILE_TEXT_Y = 300, 700
+MISSILE_TEXT_COLOUR = (255, 0, 0)
 # SCREEN SETUP
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
@@ -48,6 +58,8 @@ ENEMY_HEIGHT, ENEMY_WIDTH = display_ascii.measure_unit_size(
     level_one_ascii_units.enemy_tank["straight"], CHAR_SPACING_X, CHAR_SPACING_Y)
 ENEMY_X_SPACING = 100
 
+# missiles
+COLLISION_TOL = 20
 # explosions
 EXPLOSION_HEIGHT, EXPLOSION_WIDTH = display_ascii.measure_unit_size(
     level_one_ascii_units.missile_explode["1"], CHAR_SPACING_X, CHAR_SPACING_Y)

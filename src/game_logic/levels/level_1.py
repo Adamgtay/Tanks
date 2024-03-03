@@ -1,5 +1,5 @@
 import pygame
-from game_logic import constants, event_handler, blit_text, level_countdowns, display_ascii, make_enemies, collisions
+from game_logic import constants, event_handler, blit_text, level_countdowns, display_ascii, make_enemies, collisions, blit_text
 from game_logic.levels import level_one_ascii_units
 
 
@@ -30,7 +30,7 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
     enemy_tank_accelerations = []
     number_of_enemy_tanks = number_of_enemies
     enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.make_enemies(
-        number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION, constants.ENEMY_X_SPACING, 0)
+        number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION)
 
     # movement flags
     move_up, move_down, move_left, move_right = False, False, False, False
@@ -49,8 +49,8 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
 
             elif player_alive:
                 # event handlers
-                move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions = event_handler.event_handler_level_one(
-                    move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, player_x, player_y)
+                move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, missile_supply = event_handler.event_handler_level_one(
+                    move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, player_x, player_y, missile_supply)
 
                 # player movement
                 player_x, player_y = event_handler.player_movement(constants.PLAYER_ACCELERATION, player_x, player_y, move_up, move_down, move_left, move_right,
@@ -69,13 +69,22 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                     number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y)
 
                 # player_missile to enemy_tank collisions
-                number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y = event_handler.manage_missile_collisions(
-                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y)
+                number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills = event_handler.manage_missile_collisions(
+                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills)
 
                 # blit player position
                 display_ascii.display_unit(
                     level_one_ascii_units.player_tank["straight"], constants.PLAYER_TANK_COLOUR, player_x, player_y, constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
                 # display_ascii.display_terrain(level_one_ascii_units.terrain["mud"],(200,0,0),0,0,-1,-1 )
+
+                # blit score /time /missile supply
+                blit_text.display_text(constants.SCREEN, constants.PLAYER_SCORE+" "+str(player_score), constants.MAIN_FONT,
+                                       constants.SCORE_X, constants.SCORE_Y, constants.SCORE_COLOUR)
+                # blit score / kills / time /missile supply
+                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(60-((current_time)//1000)), constants.MAIN_FONT,
+                                       constants.TIME_X, constants.TIME_Y, constants.TIME_COLOUR)
+                blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
+                                       constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
 
         elif paused:
             blit_text.display_text(constants.SCREEN, "PAUSED", constants.MAIN_FONT,

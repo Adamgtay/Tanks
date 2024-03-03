@@ -1,15 +1,18 @@
 from game_logic import constants, display_ascii
 from game_logic.levels import level_one_ascii_units
+import random
 
 
-def make_enemies(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, enemy_speed, enemy_spacing_x, enemy_spacing_y):
-    x_pos = 25
+def make_enemies(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, enemy_speed):
     y_pos = 25
     for i in range(number_of_enemy_tanks):
+        x_pos = random.randint(constants.SCREEN_X_MIN,
+                               constants.SCREEN_WIDTH-constants.ENEMY_WIDTH)
         enemy_tank_x_positions.append(x_pos)
-        x_pos += enemy_spacing_x
+        y_pos = random.randint(constants.SCREEN_Y_MIN,
+                               constants.SCREEN_HEIGHT-800)
+
         enemy_tank_y_positions.append(y_pos)
-        y_pos += enemy_spacing_y
         enemy_tank_accelerations.append(enemy_speed)
 
     return enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations

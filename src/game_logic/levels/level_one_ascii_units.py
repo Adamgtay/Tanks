@@ -25,6 +25,12 @@ player_missile = {
                 "⌆"]
 }
 
+enemy_missile = {
+    "enemy_missile": ["∓",
+                      "┇",
+                      "∀"]
+}
+
 missile_explode = {
     "1": ["           ",
           "           ",

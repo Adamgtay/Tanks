@@ -17,7 +17,7 @@ def event_handler_startup(game_running):
     return game_running
 
 
-def event_handler_level_one(move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, player_x, player_y):
+def event_handler_level_one(move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, player_x, player_y, missile_supply):
     # player height and width not correct
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -36,6 +36,7 @@ def event_handler_level_one(move_up, move_down, move_left, move_right, paused, p
                 move_left = True
             elif event.key == pygame.K_SPACE:
                 player_missiles += 1
+                missile_supply -= 1
                 player_missile_x_positions.append(
                     player_x + (constants.PLAYER_WIDTH/2))
                 player_missile_y_positions.append(player_y)
@@ -50,7 +51,7 @@ def event_handler_level_one(move_up, move_down, move_left, move_right, paused, p
             elif event.key == pygame.K_LEFT:
                 move_left = False
 
-    return move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions
+    return move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, missile_supply
 
 
 def player_movement(player_speed, player_x, player_y, move_up, move_down, move_left, move_right, player_height, player_width, screen_height, screen_width, screen_x_min, screen_y_min):
@@ -104,15 +105,16 @@ def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x
     return explosion_frame_tracker
 
 
-def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y):
+def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills):
     missiles_to_remove = []
     tanks_to_remove = []
 
     if player_missiles > 0:
         for i in range(player_missiles):
             for j in range(number_of_enemy_tanks):
-                if collisions.isCollision(enemy_tank_x_positions[j], enemy_tank_y_positions[j], player_missile_x_positions[i], player_missile_y_positions[i], 37):
-                    print("missile hit")
+                if collisions.isCollision(enemy_tank_x_positions[j], enemy_tank_y_positions[j], player_missile_x_positions[i], player_missile_y_positions[i], constants.COLLISION_TOL):
+                    player_score += 1
+                    enemy_kills += 1
                     number_of_explosions += 1
                     explosion_frame_tracker.append(0)
                     explosion_x.append(enemy_tank_x_positions[j])
@@ -130,4 +132,4 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
         del enemy_tank_x_positions[j]
         del enemy_tank_y_positions[j]
 
-    return number_of_enemy_tanks - len(tanks_to_remove), enemy_tank_x_positions, enemy_tank_y_positions, player_missiles - len(missiles_to_remove), player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y
+    return number_of_enemy_tanks - len(tanks_to_remove), enemy_tank_x_positions, enemy_tank_y_positions, player_missiles - len(missiles_to_remove), player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills
