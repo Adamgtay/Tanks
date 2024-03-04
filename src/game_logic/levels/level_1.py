@@ -1,6 +1,7 @@
 import pygame
+import sys
 from game_logic import constants, event_handler, blit_text, level_countdowns, display_ascii, make_enemies, collisions, blit_text
-from game_logic.levels import level_one_ascii_units
+from game_logic.levels import level_one_ascii_units, startup_screen
 
 
 def level_one(game_running, player_missile_supply, number_of_enemies):
@@ -11,6 +12,7 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
     player_y = constants.CENTRE_Y+150
     player_alive = True
     player_win = False
+    player_win_frames = 0
     player_score = 0
     # missiles
     player_missiles = 0
@@ -45,9 +47,31 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
         constants.SCREEN.fill(constants.SCREEN_BKGND)  # black background
 
         if not paused:
-            if player_win:
-                blit_text.display_text(constants.SCREEN, "YOU WIN", constants.CAPTION_FONT,
-                                       constants.CENTRE_X, constants.CENTRE_Y, constants.PAUSED_TEXT_COLOUR)
+            if player_win:  # blit current screen state in background with transparency
+                # blit enemy tanks
+                make_enemies.draw_enemy_tanks(
+                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)
+
+                # blit player position
+                display_ascii.display_unit(
+                    level_one_ascii_units.player_tank["straight"], constants.PLAYER_TANK_COLOUR, player_x, player_y, constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+                # display_ascii.display_terrain(level_one_ascii_units.terrain["mud"],(200,0,0),0,0,-1,-1 )
+
+                # blit score /time /missile supply
+                blit_text.display_text(constants.SCREEN, constants.PLAYER_SCORE+" "+str(player_score), constants.MAIN_FONT,
+                                       constants.SCORE_X, constants.SCORE_Y, constants.SCORE_COLOUR)
+                # blit score / kills / time /missile supply
+                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(60-((current_time)//1000)), constants.MAIN_FONT,
+                                       constants.TIME_X, constants.TIME_Y, constants.TIME_COLOUR)
+                blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
+                                       constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
+                constants.SCREEN.fill(constants.SCREEN_BKGND_TRANSP)
+                blit_text.display_text(constants.SCREEN, constants.WIN_TEXT, constants.TITLE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y, constants.WIN_TEXT_COLOUR)
+
+                player_win_frames += 1
+                if player_win_frames >= 60*3:  # 4 seconds
+                    startup_screen.startup_screen(game_running)
 
             elif player_alive:
                 # event handlers
@@ -64,7 +88,7 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
 
                 # blit enemy tanks
                 make_enemies.draw_enemy_tanks(
-                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)  # some tanks not moving...
+                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)
 
                 # update player missile positions
                 player_missiles, player_missile_x_positions, player_missile_y_positions = event_handler.player_missile_update(
@@ -100,6 +124,9 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                                        constants.TIME_X, constants.TIME_Y, constants.TIME_COLOUR)
                 blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
                                        constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
+
+                if player_score >= 10:
+                    player_win = True
 
         elif paused:
             blit_text.display_text(constants.SCREEN, "PAUSED", constants.MAIN_FONT,

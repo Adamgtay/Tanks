@@ -14,6 +14,11 @@ def event_handler_startup(game_running):
         if event.type == pygame.KEYDOWN:  # move to level one
             if event.key == pygame.K_SPACE:
                 level_1.level_one(game_running, 50, 5)
+            if event.key == pygame.K_q:
+                game_running = False
+                # Quit Pygame
+                pygame.quit()
+                sys.exit()
 
     return game_running
 
