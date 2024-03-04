@@ -125,7 +125,7 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                 blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
                                        constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
 
-                if player_score >= 10:
+                if player_score >= 30:
                     player_win = True
 
         elif paused:

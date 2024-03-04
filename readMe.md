@@ -2,6 +2,8 @@
 
 Welcome to Code Combat: ASCII Strikes Back! This readme file will guide you through the steps to run the project successfully on your local machine.
 
+![image](assets/images/screenshots/main_screenshot-code-combat.png)
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
