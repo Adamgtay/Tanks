@@ -17,7 +17,7 @@ Before you begin, ensure you have the following installed on your system:
 
 2. Navigate to the project directory:
 
-       cd tanks/src
+       cd Code-Combat-ASCII-Strikes-Back/src
 
 
 ## Installing Python and Pygame
