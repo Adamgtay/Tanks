@@ -1,7 +1,7 @@
 import pygame
 import sys
 from game_logic.levels import level_1, level_one_ascii_units
-from game_logic import constants, display_ascii, collisions
+from game_logic import constants, display_ascii, collisions, blit_text
 
 
 def event_handler_startup(game_running):
@@ -14,6 +14,7 @@ def event_handler_startup(game_running):
         if event.type == pygame.KEYDOWN:  # move to level one
             if event.key == pygame.K_SPACE:
                 level_1.level_one(game_running, 50, 5)
+
     return game_running
 
 
@@ -79,7 +80,7 @@ def player_movement(player_speed, player_x, player_y, move_up, move_down, move_l
 def player_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions):
     if player_missiles > 0:
         for i in range(player_missiles):
-            display_ascii.display_unit(level_one_ascii_units.player_missile["missile"], constants.PLAYER_TANK_COLOUR,
+            display_ascii.display_unit(display_ascii.generate_random_character(), constants.PLAYER_TANK_COLOUR,
                                        player_missile_x_positions[i], player_missile_y_positions[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
             player_missile_y_positions[i] -= constants.MISSILE_ACCELERATION
             if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN:

@@ -1,4 +1,6 @@
 import pygame
+import random
+
 from game_logic import blit_text, constants
 
 
@@ -104,3 +106,13 @@ def display_encoded(unit, colour, x, y, char_spacing_x, char_spacing_y):
         # Move to the next line
         # Add some spacing between lines
         start_y += constants.MAIN_FONT.get_height() + char_spacing_y
+
+
+def generate_random_character():
+    # Define the range of characters you want to choose from
+    character_set = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?/~"
+
+    # Choose a random character from the character set
+    random_character = random.choice(character_set)
+
+    return random_character

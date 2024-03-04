@@ -63,7 +63,6 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                     number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions)
 
                 # blit enemy tanks
-                print("tank accelerations", enemy_tank_accelerations)
                 make_enemies.draw_enemy_tanks(
                     number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)  # some tanks not moving...
 
