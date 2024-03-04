@@ -25,6 +25,8 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
     explosion_frame_tracker = []
     # enemy data
     enemy_kills = 0
+    number_of_enemy_units_to_respawn = 5
+    enemy_respawn = False
     enemy_tank_x_positions = []
     enemy_tank_y_positions = []
     enemy_tank_accelerations = []
@@ -57,8 +59,13 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                                                                    constants.PLAYER_HEIGHT, constants.PLAYER_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_WIDTH, constants.SCREEN_X_MIN, constants.SCREEN_Y_MIN)
 
                 # update enemy tank positions
-                enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, number_of_enemy_tanks = make_enemies.update_enemy_tank_positions(
+                enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.update_enemy_tank_positions(
                     number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions)
+
+                # blit enemy tanks
+                print("tank accelerations", enemy_tank_accelerations)
+                make_enemies.draw_enemy_tanks(
+                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)  # some tanks not moving...
 
                 # update player missile positions
                 player_missiles, player_missile_x_positions, player_missile_y_positions = event_handler.player_missile_update(
@@ -71,6 +78,15 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                 # player_missile to enemy_tank collisions
                 number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills = event_handler.manage_missile_collisions(
                     number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills)
+
+                # enemy respawn
+                # print("enemy kills:", enemy_kills) # only showing one tank respawn visually
+                if enemy_kills >= 3:
+                    enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.make_enemies(
+                        number_of_enemy_units_to_respawn, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION)
+
+                    enemy_kills = 0
+                    number_of_enemy_tanks += number_of_enemy_units_to_respawn
 
                 # blit player position
                 display_ascii.display_unit(
@@ -89,8 +105,8 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
         elif paused:
             blit_text.display_text(constants.SCREEN, "PAUSED", constants.MAIN_FONT,
                                    constants.CENTRE_X, constants.CENTRE_Y, constants.PAUSED_TEXT_COLOUR)
-            move_up, move_down, move_left, move_right, paused = event_handler.event_handler_level_one(
-                move_up, move_down, move_left, move_right, paused)
+            move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, missile_supply = event_handler.event_handler_level_one(
+                move_up, move_down, move_left, move_right, paused, player_missiles, player_missile_x_positions, player_missile_y_positions, player_x, player_y, missile_supply)
 
         pygame.display.update()
         constants.CLOCK.tick(constants.FPS)

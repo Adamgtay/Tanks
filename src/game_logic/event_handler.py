@@ -84,7 +84,7 @@ def player_missile_update(player_missiles, player_missile_x_positions, player_mi
             player_missile_y_positions[i] -= constants.MISSILE_ACCELERATION
             if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN:
                 player_missiles -= 1
-                print("player missiles", player_missiles)
+                # print("player missiles", player_missiles)
                 del player_missile_y_positions[i]
                 del player_missile_x_positions[i]
                 break
