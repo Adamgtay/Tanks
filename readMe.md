@@ -1,6 +1,10 @@
 # Code Combat: ASCII Strikes Back
 
-Welcome to Code Combat: ASCII Strikes Back! This readme file will guide you through the steps to run the project successfully on your local machine.
+Welcome to Code Combat: ASCII Strikes Back! 
+
+In "Code Combat: ASCII Strikes Back," players wield the ASCII Cannon to fend off waves of pesky bugs threatening the digital realm.
+
+This readme file will guide you through the steps to run the project successfully on your local machine.
 
 ![image](assets/images/screenshots/main_screenshot-code-combat.png)
 
