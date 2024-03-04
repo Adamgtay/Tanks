@@ -48,7 +48,7 @@ To run the Pygame project, follow these steps:
 
 3. Run the main Python file of the project using the following command:
 
-       python3 tanks.py
+       python3 code_combat.py
 
 
 ## Controls
@@ -61,15 +61,9 @@ Once the project is running, you can control the game using the following keys:
 
 ## Additional Notes
 
-[Include any additional information or notes that might be helpful for users, such as troubleshooting tips, known issues, or future updates.]
+All graphics and sounds © Adam Taylor.
 
-## Credits
 
-[Give credit to any resources, libraries, or tutorials that you used in developing the project.]
-
-## License
-
-[Specify the license under which your project is distributed.]
 
 ---
 
