@@ -5,6 +5,10 @@ from game_logic.levels import level_one_ascii_units, startup_screen
 
 
 def level_one(game_running, player_missile_supply, number_of_enemies):
+    # Reset game start time and time left
+    constants.START_TIME = pygame.time.get_ticks()
+    constants.TIME_LEFT = 60
+
     # game loop
     paused = False
     # player data
@@ -44,30 +48,18 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
         elapsed_time = (current_time - constants.START_TIME) / \
             1000  # time in seconds
 
+        # Calculate remaining time
+        constants.TIME_LEFT = max(60 - int(elapsed_time), 0)
+
         constants.SCREEN.fill(constants.SCREEN_BKGND)  # black background
 
         if not paused:
             if player_win:  # blit current screen state in background with transparency
-                # blit enemy tanks
-                make_enemies.draw_enemy_tanks(
-                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)
+                blit_text.display_text(constants.SCREEN, "You scored: "+str(player_score), constants.TITLE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
 
-                # blit player position
-                display_ascii.display_unit(
-                    level_one_ascii_units.player_tank["straight"], constants.PLAYER_TANK_COLOUR, player_x, player_y, constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
-                # display_ascii.display_terrain(level_one_ascii_units.terrain["mud"],(200,0,0),0,0,-1,-1 )
-
-                # blit score /time /missile supply
-                blit_text.display_text(constants.SCREEN, constants.PLAYER_SCORE+" "+str(player_score), constants.MAIN_FONT,
-                                       constants.SCORE_X, constants.SCORE_Y, constants.SCORE_COLOUR)
-                # blit score / kills / time /missile supply
-                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(60-((current_time)//1000)), constants.MAIN_FONT,
-                                       constants.TIME_X, constants.TIME_Y, constants.TIME_COLOUR)
-                blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
-                                       constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
-                constants.SCREEN.fill(constants.SCREEN_BKGND_TRANSP)
                 blit_text.display_text(constants.SCREEN, constants.WIN_TEXT, constants.TITLE_FONT,
-                                       constants.CENTRE_X, constants.CENTRE_Y, constants.WIN_TEXT_COLOUR)
+                                       constants.CENTRE_X, constants.CENTRE_Y+30, constants.WIN_TEXT_COLOUR)
 
                 player_win_frames += 1
                 if player_win_frames >= 60*3:  # 4 seconds
@@ -120,12 +112,12 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                 blit_text.display_text(constants.SCREEN, constants.PLAYER_SCORE+" "+str(player_score), constants.MAIN_FONT,
                                        constants.SCORE_X, constants.SCORE_Y, constants.SCORE_COLOUR)
                 # blit score / kills / time /missile supply
-                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(60-((current_time)//1000)), constants.MAIN_FONT,
+                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(constants.TIME_LEFT), constants.MAIN_FONT,
                                        constants.TIME_X, constants.TIME_Y, constants.TIME_COLOUR)
                 blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
                                        constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
 
-                if player_score >= 30:
+                if player_score >= 20:
                     player_win = True
 
         elif paused:

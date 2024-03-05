@@ -14,8 +14,14 @@ FONT_LOCATION = "/Users/Adam/Desktop/coding/games/tanks/assets/fonts/dogica.ttf"
 MAIN_MUSIC_LOCATION = "/Users/Adam/Desktop/coding/games/Tanks/assets/sound/main-theme.wav"
 MAIN_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/Menlo.ttc", 12)
+MISSILE_FONT = pygame.font.Font(
+    "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/Menlo.ttc", 18)
 TITLE_FONT = pygame.font.Font(
-    "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/Menlo.ttc", 24)
+    "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 46)
+BIG_TITLE_FONT = pygame.font.Font(
+    "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 72)
+SUB_TITLE_FONT = pygame.font.Font(
+    "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 30)
 CAPTION_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 24)
 PAUSED_TEXT_COLOUR = (255, 0, 0)
@@ -32,11 +38,13 @@ MISSILE_SUPPLY = "Missiles"
 MISSILE_TEXT_X, MISSILE_TEXT_Y = 300, 700
 MISSILE_TEXT_COLOUR = (255, 0, 0)
 # other screen texts
-GAME_TITLE = "Code Combat: ASCII Strikes Back"
+DOTTED_LINE = "*------------------*"
+GAME_TITLE_1 = "CODE COMBAT:"
+GAME_TITLE_2 = "ASCII Strikes Back"
 GAME_TITLE_COLOUR = (0, 200, 255)
 STARTUP_SCREEN_EXIT = "Press SPACE to continue"
 STARTUP_SCREEN_EXIT_COLOUR = (255, 82, 0)
-STARTUP_SCREEN_CONTROLS = "Movement: UP | DOWN | LEFT | RIGHT\nFire Weapon: SPACE\nQuit: Q"
+STARTUP_SCREEN_CONTROLS = "Movement: UP | DOWN | LEFT | RIGHT\nFire Weapon: SPACE\nQuit: Q\nPause: P"
 STARTUP_SCREEN_CONTROLS_COLOUR = (255, 235, 0)
 WIN_TEXT = "Debugging is complete! Victory is ours!"
 WIN_TEXT_COLOUR = (255, 235, 0)

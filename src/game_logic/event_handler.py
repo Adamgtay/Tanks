@@ -32,6 +32,9 @@ def event_handler_level_one(move_up, move_down, move_left, move_right, paused, p
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 paused = not paused
+            elif event.key == pygame.K_q:
+                pygame.quit()
+                sys.exit()
             elif event.key == pygame.K_UP:
                 move_up = True
             elif event.key == pygame.K_DOWN:
@@ -85,8 +88,8 @@ def player_movement(player_speed, player_x, player_y, move_up, move_down, move_l
 def player_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions):
     if player_missiles > 0:
         for i in range(player_missiles):
-            display_ascii.display_unit(display_ascii.generate_random_character(), constants.PLAYER_TANK_COLOUR,
-                                       player_missile_x_positions[i], player_missile_y_positions[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+            blit_text.display_text(constants.SCREEN, display_ascii.generate_random_character(
+            ), constants.MISSILE_FONT, player_missile_x_positions[i], player_missile_y_positions[i], constants.PLAYER_TANK_COLOUR)
             player_missile_y_positions[i] -= constants.MISSILE_ACCELERATION
             if player_missile_y_positions[i] <= constants.SCREEN_Y_MIN:
                 player_missiles -= 1
