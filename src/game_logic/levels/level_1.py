@@ -4,7 +4,7 @@ from game_logic import constants, event_handler, blit_text, level_countdowns, di
 from game_logic.levels import level_one_ascii_units, startup_screen
 
 
-def level_one(game_running, player_missile_supply, number_of_enemies):
+def level_one(game_running, number_of_enemies):
     # Reset game start time and time left
     constants.START_TIME = pygame.time.get_ticks()
     constants.TIME_LEFT = 60
@@ -16,13 +16,13 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
     player_y = constants.CENTRE_Y+150
     player_alive = True
     player_win = False
-    player_win_frames = 0
     player_score = 0
     # missiles
     player_missiles = 0
-    missile_supply = player_missile_supply
+    missile_supply = 30
     player_missile_x_positions = []
     player_missile_y_positions = []
+    player_win_score = 10
     # explosions
     explosion_x = []
     explosion_y = []
@@ -55,15 +55,23 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
 
         if not paused:
             if player_win:  # blit current screen state in background with transparency
-                blit_text.display_text(constants.SCREEN, "You scored: "+str(player_score), constants.TITLE_FONT,
-                                       constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                player_score_message = str(
+                    player_score) + " " + constants.WIN_SCORE_LARGE
+                blit_text.display_text(constants.SCREEN, player_score_message, constants.BIG_SCORE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y-200, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                blit_text.display_text(constants.SCREEN, constants.WIN_TEXT_WITH_SCORE, constants.TITLE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y-100, constants.STARTUP_SCREEN_EXIT_COLOUR)
 
-                blit_text.display_text(constants.SCREEN, constants.WIN_TEXT, constants.TITLE_FONT,
-                                       constants.CENTRE_X, constants.CENTRE_Y+30, constants.WIN_TEXT_COLOUR)
-
-                player_win_frames += 1
-                if player_win_frames >= 60*3:  # 4 seconds
-                    startup_screen.startup_screen(game_running)
+                blit_text.display_multiline_text(constants.SCREEN, constants.WIN_TEXT, constants.TITLE_FONT,
+                                                 constants.CENTRE_X, constants.CENTRE_Y, constants.WIN_TEXT_COLOUR)
+                # press space to continue
+                if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
+                    blit_text.display_text(constants.SCREEN, constants.SPACE_TO_RESTART, constants.SUB_TITLE_FONT,
+                                           constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                game_running = event_handler.event_handler_end_of_level_one(
+                    game_running)
 
             elif player_alive:
                 # event handlers
@@ -117,8 +125,28 @@ def level_one(game_running, player_missile_supply, number_of_enemies):
                 blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
                                        constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
 
-                if player_score >= 20:
+                if player_score >= player_win_score:
                     player_win = True
+                elif missile_supply <= 0:
+                    player_alive = False
+
+            elif not player_alive:
+                blit_text.display_text(constants.SCREEN, constants.GAME_OVER_TEXT, constants.TITLE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y-90, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                if missile_supply <= 0:
+                    blit_text.display_text(constants.SCREEN, constants.NO_MISSILES_TEXT, constants.SUB_TITLE_FONT,
+                                           constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
+
+                blit_text.display_multiline_text(constants.SCREEN, constants.DEFEAT_TEXT, constants.SUB_TITLE_FONT,
+                                                 constants.CENTRE_X, constants.CENTRE_Y+30, constants.WIN_TEXT_COLOUR)
+                # press space to continue
+                if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
+                    blit_text.display_text(constants.SCREEN, constants.SPACE_TO_RESTART, constants.SUB_TITLE_FONT,
+                                           constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
+                                       constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                game_running = event_handler.event_handler_end_of_level_one(
+                    game_running)
 
         elif paused:
             blit_text.display_text(constants.SCREEN, "PAUSED", constants.MAIN_FONT,

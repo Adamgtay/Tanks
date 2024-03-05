@@ -20,6 +20,8 @@ TITLE_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 46)
 BIG_TITLE_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 72)
+BIG_SCORE_FONT = pygame.font.Font(
+    "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 120)
 SUB_TITLE_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/VictorMono-Medium.ttf", 30)
 CAPTION_FONT = pygame.font.Font(
@@ -43,11 +45,19 @@ GAME_TITLE_1 = "CODE COMBAT:"
 GAME_TITLE_2 = "ASCII Strikes Back"
 GAME_TITLE_COLOUR = (0, 200, 255)
 STARTUP_SCREEN_EXIT = "Press SPACE to continue"
+SPACE_TO_RESTART = "Press SPACE to play again"
 STARTUP_SCREEN_EXIT_COLOUR = (255, 82, 0)
 STARTUP_SCREEN_CONTROLS = "Movement: UP | DOWN | LEFT | RIGHT\nFire Weapon: SPACE\nQuit: Q\nPause: P"
 STARTUP_SCREEN_CONTROLS_COLOUR = (255, 235, 0)
-WIN_TEXT = "Debugging is complete! Victory is ours!"
+WIN_SCORE_LARGE = "BUGS!"
+WIN_TEXT_WITH_SCORE = "Terminated with extreme prejudice!"
+WIN_TEXT = "Debugging is complete!\nVictory is ours!"
 WIN_TEXT_COLOUR = (255, 235, 0)
+GAME_OVER_TEXT = "GAME OVER"
+Q_TO_QUIT_TEXT = "or Q to quit"
+NO_MISSILES_TEXT = "Your ASCII artillery has been fully depleted!"
+DEFEAT_TEXT = "Don't let this defeat discourage you!\nThe ASCII universe awaits your return!"
+MOTIVATE_TEXT = "It's not a feature, it's a bug!"
 # SCREEN SETUP
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
