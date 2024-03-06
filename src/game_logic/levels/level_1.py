@@ -7,10 +7,12 @@ from game_logic.levels import level_one_ascii_units, startup_screen
 def level_one(game_running, number_of_enemies):
     # Reset game start time and time left
     constants.START_TIME = pygame.time.get_ticks()
-    constants.TIME_LEFT = 60
 
     # game loop
     paused = False
+    level_time_limit = 10
+    remaining_time = int
+
     # player data
     player_x = constants.CENTRE_X
     player_y = constants.CENTRE_Y+150
@@ -49,7 +51,7 @@ def level_one(game_running, number_of_enemies):
             1000  # time in seconds
 
         # Calculate remaining time
-        constants.TIME_LEFT = max(60 - int(elapsed_time), 0)
+        remaining_time = max(level_time_limit - int(elapsed_time), 0)
 
         constants.SCREEN.fill(constants.SCREEN_BKGND)  # black background
 
@@ -120,14 +122,14 @@ def level_one(game_running, number_of_enemies):
                 blit_text.display_text(constants.SCREEN, constants.PLAYER_SCORE+" "+str(player_score), constants.MAIN_FONT,
                                        constants.SCORE_X, constants.SCORE_Y, constants.SCORE_COLOUR)
                 # blit score / kills / time /missile supply
-                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(constants.TIME_LEFT), constants.MAIN_FONT,
+                blit_text.display_text(constants.SCREEN, constants.TIME_COUNT+" "+str(remaining_time), constants.MAIN_FONT,
                                        constants.TIME_X, constants.TIME_Y, constants.TIME_COLOUR)
                 blit_text.display_text(constants.SCREEN, constants.MISSILE_SUPPLY+" "+str(missile_supply), constants.MAIN_FONT,
                                        constants.MISSILE_TEXT_X, constants.MISSILE_TEXT_Y, constants.MISSILE_TEXT_COLOUR)
 
                 if player_score >= player_win_score:
                     player_win = True
-                elif missile_supply <= 0:
+                elif missile_supply <= 0 or remaining_time <= 0:
                     player_alive = False
 
             elif not player_alive:
@@ -135,6 +137,9 @@ def level_one(game_running, number_of_enemies):
                                        constants.CENTRE_X, constants.CENTRE_Y-90, constants.STARTUP_SCREEN_EXIT_COLOUR)
                 if missile_supply <= 0:
                     blit_text.display_text(constants.SCREEN, constants.NO_MISSILES_TEXT, constants.SUB_TITLE_FONT,
+                                           constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                elif remaining_time <= 0:
+                    blit_text.display_text(constants.SCREEN, constants.NO_TIME_TEXT, constants.SUB_TITLE_FONT,
                                            constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
 
                 blit_text.display_multiline_text(constants.SCREEN, constants.DEFEAT_TEXT, constants.SUB_TITLE_FONT,

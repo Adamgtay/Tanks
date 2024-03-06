@@ -56,6 +56,7 @@ WIN_TEXT_COLOUR = (255, 235, 0)
 GAME_OVER_TEXT = "GAME OVER"
 Q_TO_QUIT_TEXT = "or Q to quit"
 NO_MISSILES_TEXT = "Your ASCII artillery has been fully depleted!"
+NO_TIME_TEXT = "Time's up! Better luck next compile!"
 DEFEAT_TEXT = "Don't let this defeat discourage you!\nThe ASCII universe awaits your return!"
 MOTIVATE_TEXT = "It's not a feature, it's a bug!"
 # SCREEN SETUP
