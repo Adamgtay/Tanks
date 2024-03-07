@@ -137,6 +137,33 @@ def player_missile_update(player_missiles, player_missile_x_positions, player_mi
     return player_missiles, player_missile_x_positions, player_missile_y_positions
 
 
+def enenmy_missiles_initiate(player_x, number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_missile_x_positions, enemy_missile_y_positions, number_of_enemy_missiles):
+    for position in range(number_of_enemy_tanks):
+        if enemy_tank_x_positions[position] == player_x and enemy_tank_y_positions[position] <= (constants.SCREEN_HEIGHT-constants.PLAYER_HEIGHT):
+            enemy_missile_x_positions.append(
+                enemy_tank_x_positions[position])
+            enemy_missile_y_positions.append(
+                enemy_tank_y_positions[position])
+            number_of_enemy_missiles += 1
+    return number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_missile_x_positions, enemy_missile_y_positions, number_of_enemy_missiles
+
+
+def enemy_missile_update(player_missiles, player_missile_x_positions, player_missile_y_positions):
+    if player_missiles > 0:
+        for i in range(player_missiles):
+            blit_text.display_text(constants.SCREEN, display_ascii.generate_random_character(
+            ), constants.MISSILE_FONT, player_missile_x_positions[i] + (constants.ENEMY_WIDTH/2), player_missile_y_positions[i] + constants.ENEMY_HEIGHT, constants.ENEMY_TANK_COLOUR)
+            player_missile_y_positions[i] += constants.MISSILE_ACCELERATION
+            if player_missile_y_positions[i] >= constants.SCREEN_HEIGHT:
+                player_missiles -= 1
+                # print("player missiles", player_missiles)
+                del player_missile_y_positions[i]
+                del player_missile_x_positions[i]
+                break
+
+    return player_missiles, player_missile_x_positions, player_missile_y_positions
+
+
 def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y):
     if number_of_explosions > 0:
         for i in range(number_of_explosions):
@@ -144,10 +171,16 @@ def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x
 
                 display_ascii.display_unit(
                     level_one_ascii_units.missile_explode_anim[explosion_frame_tracker[i]], constants.EXPLOSION_COLOUR, explosion_x[i], explosion_y[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+                if explosion_frame_tracker[i] < 9:
+                    explosion_frame_tracker[i] += 1
+                else:
+                    number_of_explosions -= 1
+                    del explosion_x[i]
+                    del explosion_y[i]
+                    del explosion_frame_tracker[i]
+                    break
 
-                explosion_frame_tracker[i] += 1
-
-    return explosion_frame_tracker
+    return explosion_frame_tracker, explosion_x, explosion_y, number_of_explosions
 
 
 def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills):
@@ -180,3 +213,31 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
         del enemy_tank_y_positions[j]
 
     return number_of_enemy_tanks - len(tanks_to_remove), enemy_tank_x_positions, enemy_tank_y_positions, player_missiles - len(missiles_to_remove), player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills
+
+
+def manage_enemy_missile_collisions(number_of_enemy_missiles, player_x, player_y, enemy_missile_x_positions, enemy_missile_y_positions, explosion_frame_tracker, explosion_x, explosion_y, player_alive, number_of_explosions):
+    missiles_to_remove = []
+    tanks_to_remove = []
+    if number_of_enemy_missiles > 0:
+        for i in range(number_of_enemy_missiles):
+
+            if collisions.isCollision(player_x, player_y, enemy_missile_x_positions[i], enemy_missile_y_positions[i], constants.COLLISION_TOL):
+                number_of_explosions += 1
+                explosion_frame_tracker.append(0)
+                explosion_x.append(player_x)
+                explosion_y.append(player_y)
+                load_music.load_music(constants.EXPLOSION_SOUND)
+                player_alive = False
+
+                break
+
+    # Remove collided missiles and player tank
+    for i in reversed(missiles_to_remove):
+        del enemy_missile_x_positions[i]
+        del enemy_missile_y_positions[i]
+
+    for j in reversed(tanks_to_remove):
+        del player_x
+        del player_y
+
+    return explosion_frame_tracker, explosion_x, explosion_y, player_alive, number_of_explosions

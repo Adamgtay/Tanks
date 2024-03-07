@@ -19,6 +19,7 @@ def level_one(game_running, number_of_enemies):
     player_alive = True
     player_win = False
     player_score = 0
+    player_death_delay = 0
 
     # player missiles
     player_missiles = 0
@@ -46,8 +47,9 @@ def level_one(game_running, number_of_enemies):
         number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION)
 
     # enemy missiles
+    number_of_enemy_missiles = 0
     enemy_missile_x_positions = []
-    enemy_missile_x_positions = []
+    enemy_missile_y_positions = []
 
     # movement flags
     move_up, move_down, move_left, move_right = False, False, False, False
@@ -63,7 +65,34 @@ def level_one(game_running, number_of_enemies):
         constants.SCREEN.fill(constants.SCREEN_BKGND)  # black background
 
         if not paused:
-            if player_win:
+            if not player_alive:
+                # explosions
+                if number_of_explosions > 0:
+                    explosion_frame_tracker, explosion_x, explosion_y, number_of_explosions = event_handler.manage_explosions(
+                        number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y)
+
+                else:
+                    blit_text.display_text(constants.SCREEN, constants.GAME_OVER_TEXT, constants.TITLE_FONT,
+                                           constants.CENTRE_X, constants.CENTRE_Y-90, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                    if missile_supply <= 0:
+                        blit_text.display_text(constants.SCREEN, constants.NO_MISSILES_TEXT, constants.SUB_TITLE_FONT,
+                                               constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                    elif remaining_time <= 0:
+                        blit_text.display_text(constants.SCREEN, constants.NO_TIME_TEXT, constants.SUB_TITLE_FONT,
+                                               constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
+
+                    blit_text.display_multiline_text(constants.SCREEN, constants.DEFEAT_TEXT, constants.SUB_TITLE_FONT,
+                                                     constants.CENTRE_X, constants.CENTRE_Y+30, constants.WIN_TEXT_COLOUR)
+                    # press space to continue
+                    if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
+                        blit_text.display_text(constants.SCREEN, constants.KEY_TO_RESTART, constants.SUB_TITLE_FONT,
+                                               constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                    blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
+                                           constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                    game_running = event_handler.event_handler_end_of_level_one(
+                        game_running)
+
+            elif player_win:
                 # format player score
                 player_score_message = str(
                     player_score) + " " + constants.WIN_SCORE_LARGE
@@ -106,17 +135,31 @@ def level_one(game_running, number_of_enemies):
                 make_enemies.draw_enemy_tanks(
                     number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions)
 
+                # enemy missiles identify
+                if number_of_enemy_tanks > 0:
+                    number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_missile_x_positions, enemy_missile_y_positions, number_of_enemy_missiles = event_handler.enenmy_missiles_initiate(
+                        player_x, number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_missile_x_positions, enemy_missile_y_positions, number_of_enemy_missiles)
+
+                # update enemy missile positions
+                if number_of_enemy_missiles > 0:
+                    number_of_enemy_missiles, enemy_missile_x_positions, enemy_missile_y_positions = event_handler.enemy_missile_update(
+                        number_of_enemy_missiles, enemy_missile_x_positions, enemy_missile_y_positions)
+
                 # update player missile positions
                 player_missiles, player_missile_x_positions, player_missile_y_positions = event_handler.player_missile_update(
                     player_missiles, player_missile_x_positions, player_missile_y_positions)
 
-                # explosions
-                explosion_frame_tracker = event_handler.manage_explosions(
-                    number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y)
-
-                # player_missile to enemy_tank collisions
+                # player_missile to enemy collisions
                 number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills = event_handler.manage_missile_collisions(
                     number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, player_missiles, player_missile_x_positions, player_missile_y_positions, number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y, player_score, enemy_kills)
+
+                # enemy missile to player collisions
+                explosion_frame_tracker, explosion_x, explosion_y, player_alive, number_of_explosions = event_handler.manage_enemy_missile_collisions(
+                    number_of_enemy_missiles, player_x, player_y, enemy_missile_x_positions, enemy_missile_y_positions, explosion_frame_tracker, explosion_x, explosion_y, player_alive, number_of_explosions)
+
+                # explosions
+                explosion_frame_tracker, explosion_x, explosion_y, number_of_explosions = event_handler.manage_explosions(
+                    number_of_explosions, explosion_frame_tracker, explosion_x, explosion_y)
 
                 # enemy respawn
                 # print("enemy kills:", enemy_kills) # only showing one tank respawn visually
@@ -145,27 +188,6 @@ def level_one(game_running, number_of_enemies):
                     player_win = True
                 elif missile_supply <= 0 or remaining_time <= 0:
                     player_alive = False
-
-            elif not player_alive:
-                blit_text.display_text(constants.SCREEN, constants.GAME_OVER_TEXT, constants.TITLE_FONT,
-                                       constants.CENTRE_X, constants.CENTRE_Y-90, constants.STARTUP_SCREEN_EXIT_COLOUR)
-                if missile_supply <= 0:
-                    blit_text.display_text(constants.SCREEN, constants.NO_MISSILES_TEXT, constants.SUB_TITLE_FONT,
-                                           constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
-                elif remaining_time <= 0:
-                    blit_text.display_text(constants.SCREEN, constants.NO_TIME_TEXT, constants.SUB_TITLE_FONT,
-                                           constants.CENTRE_X, constants.CENTRE_Y-30, constants.STARTUP_SCREEN_EXIT_COLOUR)
-
-                blit_text.display_multiline_text(constants.SCREEN, constants.DEFEAT_TEXT, constants.SUB_TITLE_FONT,
-                                                 constants.CENTRE_X, constants.CENTRE_Y+30, constants.WIN_TEXT_COLOUR)
-                # press space to continue
-                if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
-                    blit_text.display_text(constants.SCREEN, constants.SPACE_TO_RESTART, constants.SUB_TITLE_FONT,
-                                           constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
-                blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
-                                       constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
-                game_running = event_handler.event_handler_end_of_level_one(
-                    game_running)
 
         elif paused:
             blit_text.display_text(constants.SCREEN, "PAUSED", constants.MAIN_FONT,
