@@ -85,7 +85,7 @@ def event_handler_level_one(move_up, move_down, move_left, move_right, paused, p
                 player_missile_x_positions.append(
                     player_x + (constants.PLAYER_WIDTH/2))
                 player_missile_y_positions.append(player_y)
-
+                load_music.load_music(constants.LAUNCH_SOUND)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 move_up = False
@@ -166,7 +166,7 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
                     explosion_y.append(enemy_tank_y_positions[j])
                     missiles_to_remove.append(i)
                     tanks_to_remove.append(j)
-                    # load_music.load_music(constants.EXPLOSION_SOUND)
+                    load_music.load_music(constants.EXPLOSION_SOUND)
 
                     break
 

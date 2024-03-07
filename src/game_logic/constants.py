@@ -64,7 +64,7 @@ KEY_TO_RESTART = "Press ENTER to play again"
 STARTUP_SCREEN_EXIT_COLOUR = CYAN
 STARTUP_SCREEN_CONTROLS = "Movement: UP | DOWN | LEFT | RIGHT\nFire Weapon: SPACE\nQuit: Q\nPause: P"
 STARTUP_SCREEN_CONTROLS_COLOUR = CYAN
-WIN_SCORE_LARGE = "BUGS!"
+WIN_SCORE_LARGE = "BUGS"
 WIN_TEXT_WITH_SCORE = "Terminated with extreme prejudice!"
 WIN_TEXT = "Debugging is complete!\nVictory is ours!"
 WIN_TEXT_COLOUR = YELLOW
@@ -112,6 +112,8 @@ COLLISION_TOL = 20
 EXPLOSION_HEIGHT, EXPLOSION_WIDTH = display_ascii.measure_unit_size(
     level_one_ascii_units.missile_explode["1"], CHAR_SPACING_X, CHAR_SPACING_Y)
 EXPLOSION_COLOUR = YELLOW
+EXPLOSION_SOUND = "../assets/sound/explode.wav"
+LAUNCH_SOUND = "../assets/sound/launch.wav"
 
 
 # image dictionarie
