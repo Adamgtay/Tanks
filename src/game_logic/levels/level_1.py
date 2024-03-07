@@ -19,28 +19,35 @@ def level_one(game_running, number_of_enemies):
     player_alive = True
     player_win = False
     player_score = 0
-    # missiles
+
+    # player missiles
     player_missiles = 0
     missile_supply = 30
     player_missile_x_positions = []
     player_missile_y_positions = []
     player_win_score = 10
+
     # explosions
     explosion_x = []
     explosion_y = []
     number_of_explosions = 0
     explosion_anim_list = []
     explosion_frame_tracker = []
+
     # enemy data
     enemy_kills = 0
     number_of_enemy_units_to_respawn = 5
-    enemy_respawn = False
+
     enemy_tank_x_positions = []
     enemy_tank_y_positions = []
     enemy_tank_accelerations = []
     number_of_enemy_tanks = number_of_enemies
     enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.make_enemies(
         number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, constants.ENEMY_ACCELERATION)
+
+    # enemy missiles
+    enemy_missile_x_positions = []
+    enemy_missile_x_positions = []
 
     # movement flags
     move_up, move_down, move_left, move_right = False, False, False, False
@@ -56,22 +63,29 @@ def level_one(game_running, number_of_enemies):
         constants.SCREEN.fill(constants.SCREEN_BKGND)  # black background
 
         if not paused:
-            if player_win:  # blit current screen state in background with transparency
+            if player_win:
+                # format player score
                 player_score_message = str(
                     player_score) + " " + constants.WIN_SCORE_LARGE
+
+                # blit end score
                 blit_text.display_text(constants.SCREEN, player_score_message, constants.BIG_SCORE_FONT,
                                        constants.CENTRE_X, constants.CENTRE_Y-200, constants.STARTUP_SCREEN_EXIT_COLOUR)
                 blit_text.display_text(constants.SCREEN, constants.WIN_TEXT_WITH_SCORE, constants.TITLE_FONT,
                                        constants.CENTRE_X, constants.CENTRE_Y-100, constants.STARTUP_SCREEN_EXIT_COLOUR)
 
+                # blit win message
                 blit_text.display_multiline_text(constants.SCREEN, constants.WIN_TEXT, constants.TITLE_FONT,
                                                  constants.CENTRE_X, constants.CENTRE_Y, constants.WIN_TEXT_COLOUR)
-                # press space to continue
+
+                # option to play again or quit text
                 if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
                     blit_text.display_text(constants.SCREEN, constants.SPACE_TO_RESTART, constants.SUB_TITLE_FONT,
                                            constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
                 blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
                                        constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
+
+                # check keys pressed to change state
                 game_running = event_handler.event_handler_end_of_level_one(
                     game_running)
 

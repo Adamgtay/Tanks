@@ -1,7 +1,7 @@
 import pygame
 import sys
 from game_logic.levels import level_1, level_one_ascii_units, pre_level_screen
-from game_logic import constants, display_ascii, collisions, blit_text
+from game_logic import constants, display_ascii, collisions, blit_text, load_music
 
 
 def event_handler_startup(game_running):
@@ -31,8 +31,6 @@ def event_handler_pre_level_screen(game_running):
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:  # move to level one
-            if event.key == pygame.K_SPACE:
-                level_1.level_one(game_running)
             if event.key == pygame.K_q:
                 game_running = False
                 # Quit Pygame
@@ -145,9 +143,10 @@ def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x
             if explosion_frame_tracker[i] < len(level_one_ascii_units.missile_explode_anim):
 
                 display_ascii.display_unit(
-                    level_one_ascii_units.missile_explode_anim[explosion_frame_tracker[i]], constants.ENEMY_TANK_COLOUR, explosion_x[i], explosion_y[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
+                    level_one_ascii_units.missile_explode_anim[explosion_frame_tracker[i]], constants.EXPLOSION_COLOUR, explosion_x[i], explosion_y[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
 
                 explosion_frame_tracker[i] += 1
+                load_music.load_music(constants.EXPLOSION_SOUND)
 
     return explosion_frame_tracker
 
