@@ -1,6 +1,6 @@
 import pygame
 import sys
-from game_logic import constants, event_handler, blit_text, level_countdowns, display_ascii, make_enemies, collisions, blit_text
+from game_logic import constants, event_handler, blit_text, level_countdowns, display_ascii, make_enemies, collisions, blit_text, load_music
 from game_logic.levels import level_one_ascii_units, startup_screen
 
 
@@ -10,7 +10,7 @@ def level_one(game_running, number_of_enemies):
 
     # game loop
     paused = False
-    level_time_limit = 10
+    level_time_limit = 30
     remaining_time = int
 
     # player data

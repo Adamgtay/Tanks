@@ -146,7 +146,6 @@ def manage_explosions(number_of_explosions, explosion_frame_tracker, explosion_x
                     level_one_ascii_units.missile_explode_anim[explosion_frame_tracker[i]], constants.EXPLOSION_COLOUR, explosion_x[i], explosion_y[i], constants.CHAR_SPACING_X, constants.CHAR_SPACING_Y)
 
                 explosion_frame_tracker[i] += 1
-                load_music.load_music(constants.EXPLOSION_SOUND)
 
     return explosion_frame_tracker
 
@@ -167,6 +166,8 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
                     explosion_y.append(enemy_tank_y_positions[j])
                     missiles_to_remove.append(i)
                     tanks_to_remove.append(j)
+                    load_music.load_music(constants.EXPLOSION_SOUND)
+
                     break
 
     # Remove collided missiles and enemy tanks
