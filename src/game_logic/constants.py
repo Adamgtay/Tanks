@@ -1,6 +1,7 @@
 from game_logic import display_ascii
 from game_logic.levels import level_one_ascii_units
 import pygame
+import os
 
 pygame.font.init()
 
@@ -11,7 +12,7 @@ START_TIME = pygame.time.get_ticks()
 
 # FONTS
 FONT_LOCATION = "/Users/Adam/Desktop/coding/games/tanks/assets/fonts/dogica.ttf"
-MAIN_MUSIC_LOCATION = "/Users/Adam/Desktop/coding/games/Tanks/assets/sound/main-theme.wav"
+MAIN_MUSIC_LOCATION = "../assets/sound/main-theme.wav"
 MAIN_FONT = pygame.font.Font(
     "/Users/Adam/Desktop/coding/games/Tanks/assets/fonts/Menlo.ttc", 12)
 MISSILE_FONT = pygame.font.Font(
@@ -59,7 +60,7 @@ GAME_TITLE_1 = "CODE COMBAT:"
 GAME_TITLE_2 = "ASCII Strikes Back"
 GAME_TITLE_COLOUR = YELLOW
 STARTUP_SCREEN_EXIT = "Press SPACE to continue"
-SPACE_TO_RESTART = "Press SPACE to play again"
+KEY_TO_RESTART = "Press ENTER to play again"
 STARTUP_SCREEN_EXIT_COLOUR = CYAN
 STARTUP_SCREEN_CONTROLS = "Movement: UP | DOWN | LEFT | RIGHT\nFire Weapon: SPACE\nQuit: Q\nPause: P"
 STARTUP_SCREEN_CONTROLS_COLOUR = CYAN
@@ -111,9 +112,6 @@ COLLISION_TOL = 20
 EXPLOSION_HEIGHT, EXPLOSION_WIDTH = display_ascii.measure_unit_size(
     level_one_ascii_units.missile_explode["1"], CHAR_SPACING_X, CHAR_SPACING_Y)
 EXPLOSION_COLOUR = YELLOW
-
-# sounds
-EXPLOSION_SOUND = "/Users/Adam/Desktop/coding/games/Tanks/assets/sound/explode.wav"
 
 
 # image dictionarie

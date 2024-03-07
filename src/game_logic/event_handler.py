@@ -48,7 +48,7 @@ def event_handler_end_of_level_one(game_running):
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:  # move to level one
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_RETURN:
                 level_1.level_one(game_running, 5)
             if event.key == pygame.K_q:
                 game_running = False
@@ -166,7 +166,7 @@ def manage_missile_collisions(number_of_enemy_tanks, enemy_tank_x_positions, ene
                     explosion_y.append(enemy_tank_y_positions[j])
                     missiles_to_remove.append(i)
                     tanks_to_remove.append(j)
-                    load_music.load_music(constants.EXPLOSION_SOUND)
+                    # load_music.load_music(constants.EXPLOSION_SOUND)
 
                     break
 

@@ -80,7 +80,7 @@ def level_one(game_running, number_of_enemies):
 
                 # option to play again or quit text
                 if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
-                    blit_text.display_text(constants.SCREEN, constants.SPACE_TO_RESTART, constants.SUB_TITLE_FONT,
+                    blit_text.display_text(constants.SCREEN, constants.KEY_TO_RESTART, constants.SUB_TITLE_FONT,
                                            constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
                 blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
                                        constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
