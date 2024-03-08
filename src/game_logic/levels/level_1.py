@@ -10,7 +10,7 @@ def level_one(game_running, number_of_enemies):
 
     # game loop
     paused = False
-    level_time_limit = 30
+    level_time_limit = 60
     remaining_time = int
 
     # player data
@@ -26,7 +26,7 @@ def level_one(game_running, number_of_enemies):
     missile_supply = 30
     player_missile_x_positions = []
     player_missile_y_positions = []
-    player_win_score = 10
+    player_win_score = 20
 
     # explosions
     explosion_x = []
@@ -86,7 +86,7 @@ def level_one(game_running, number_of_enemies):
                     # press space to continue
                     if (elapsed_time*1000) % 1000 < 500:  # Toggles visibility every half-second
                         blit_text.display_text(constants.SCREEN, constants.KEY_TO_RESTART, constants.SUB_TITLE_FONT,
-                                               constants.CENTRE_X, constants.CENTRE_Y+200, constants.STARTUP_SCREEN_EXIT_COLOUR)
+                                               constants.CENTRE_X, constants.CENTRE_Y+200, constants.CYAN)
                     blit_text.display_text(constants.SCREEN, constants.Q_TO_QUIT_TEXT, constants.SUB_TITLE_FONT,
                                            constants.CENTRE_X, constants.CENTRE_Y+280, constants.STARTUP_SCREEN_EXIT_COLOUR)
                     game_running = event_handler.event_handler_end_of_level_one(
@@ -128,8 +128,8 @@ def level_one(game_running, number_of_enemies):
                                                                    constants.PLAYER_HEIGHT, constants.PLAYER_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_WIDTH, constants.SCREEN_X_MIN, constants.SCREEN_Y_MIN)
 
                 # update enemy tank positions
-                enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations = make_enemies.update_enemy_tank_positions(
-                    number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions)
+                enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, player_alive = make_enemies.update_enemy_tank_positions(
+                    number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions, player_alive)
 
                 # blit enemy tanks
                 make_enemies.draw_enemy_tanks(

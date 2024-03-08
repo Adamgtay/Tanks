@@ -3,13 +3,13 @@ from game_logic import constants, event_handler, blit_text
 
 
 def startup_screen(game_running):
+
     # game loop
     while game_running:
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - constants.START_TIME
         constants.SCREEN.fill(constants.SCREEN_BKGND)  # black background
 
-        # game title
         blit_text.display_text(constants.SCREEN, constants.GAME_TITLE_1, constants.BIG_TITLE_FONT,
                                constants.CENTRE_X, constants.CENTRE_Y-100, constants.GAME_TITLE_COLOUR)
         blit_text.display_text(constants.SCREEN, constants.GAME_TITLE_2, constants.TITLE_FONT,

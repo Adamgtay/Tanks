@@ -18,7 +18,7 @@ def make_enemies(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_pos
     return enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations
 
 
-def update_enemy_tank_positions(number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions):
+def update_enemy_tank_positions(number_of_enemy_tanks, enemy_tank_accelerations, enemy_tank_x_positions, enemy_tank_y_positions, player_alive):
     for i in range(number_of_enemy_tanks):
         if enemy_tank_accelerations[i] > 0 and enemy_tank_x_positions[i] < constants.SCREEN_WIDTH:
             enemy_tank_x_positions[i] += enemy_tank_accelerations[i]
@@ -33,8 +33,10 @@ def update_enemy_tank_positions(number_of_enemy_tanks, enemy_tank_accelerations,
                 enemy_tank_x_positions[i] = constants.SCREEN_X_MIN
                 enemy_tank_y_positions[i] += constants.ENEMY_HEIGHT
                 enemy_tank_accelerations[i] = -enemy_tank_accelerations[i]
+        if enemy_tank_y_positions[i] >= constants.SCREEN_HEIGHT:
+            player_alive = False
 
-    return enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations
+    return enemy_tank_x_positions, enemy_tank_y_positions, enemy_tank_accelerations, player_alive
 
 
 def draw_enemy_tanks(number_of_enemy_tanks, enemy_tank_x_positions, enemy_tank_y_positions):
