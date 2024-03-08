@@ -23,7 +23,7 @@ def level_one(game_running, number_of_enemies):
 
     # player missiles
     player_missiles = 0
-    missile_supply = 30
+    missile_supply = 100
     player_missile_x_positions = []
     player_missile_y_positions = []
     player_win_score = 20
