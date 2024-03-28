@@ -8,6 +8,15 @@ This readme file will guide you through the steps to run the project successfull
 
 ![image](assets/images/screenshots/main_screenshot-code-combat.png)
 
+## Running the program as an executable
+
+To run the program as an executable, follow these simple steps:
+
+1. Download and Extract: Download the code_combat.zip from the repository. Once downloaded, extract the contents of the zip file to a location of your choice on your computer.
+2. Locate the Executable: Navigate to the build/code_combat directory within the extracted folder.
+3. Run the Executable: Double-click the code_combat.exe file to launch the program.
+
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
