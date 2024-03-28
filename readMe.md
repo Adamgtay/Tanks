@@ -8,22 +8,26 @@ This readme file will guide you through the steps to run the project successfull
 
 ![image](assets/images/screenshots/main_screenshot-code-combat.png)
 
-## Running the program as an executable
+## Option 1: Running the program as an executable
 
 To run the program as an executable, follow these simple steps:
 
-1. Download and Extract: Download the code_combat.zip from the repository. Once downloaded, extract the contents of the zip file to a location of your choice on your computer.
-2. Locate the Executable: Navigate to the build/code_combat directory within the extracted folder.
-3. Run the Executable: Double-click the code_combat.exe file to launch the program.
+1. **Download and Extract**: Download the `code_combat.zip` from the repository. Once downloaded, extract the contents of the zip file to a location of your choice on your computer.
+
+2. **Locate the Executable**: Navigate to the `build/code_combat` directory within the extracted folder.
+
+3. **Run the Executable**: Double-click the `code_combat.exe` file to launch the program.
 
 
-## Prerequisites
+## Option 2: Building and running the program from source
+
+### Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
 - [Python](https://www.python.org/downloads/) (version 3.6 or later)
 - [Pygame](https://www.pygame.org/download.shtml) library
 
-## Installation
+### Installation
 
 1. Clone the repository to your local machine using the following command:
 
@@ -35,16 +39,16 @@ Before you begin, ensure you have the following installed on your system:
        cd Code-Combat-ASCII-Strikes-Back/src
 
 
-## Installing Python and Pygame
+### Installing Python and Pygame
 
-### Installing Python
+#### Installing Python
 
 If you don't have Python installed on your system, you can download it from the official Python website:
 [Python Downloads](https://www.python.org/downloads/)
 
 Follow the installation instructions provided on the website for your specific operating system.
 
-### Installing Pygame
+#### Installing Pygame
 
 Once Python is installed, you can install Pygame using pip, the Python package manager. Open a terminal or command prompt window and run the following command:
 
@@ -53,7 +57,7 @@ Once Python is installed, you can install Pygame using pip, the Python package m
 
 This will download and install the Pygame library and its dependencies.
 
-## Running the Project
+### Running the Project
 
 To run the Pygame project, follow these steps:
 
@@ -66,7 +70,7 @@ To run the Pygame project, follow these steps:
        python3 code_combat.py
 
 
-## Controls
+### Controls
 
 Once the project is running, you can control the game using the following keys:
 
